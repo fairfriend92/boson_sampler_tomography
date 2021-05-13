@@ -1,0 +1,38 @@
+Come usare i programmi "matrice unitaria di prova" e "tomografia 4x4".
+
+Per verificare che il programma che esegue la tomografia sia corretto possiamo passargli le visibilità e i coupling della
+matrice random costruita da "matrice unitaria di prova" e confrontare l'output con la matrice originale.
+
+Per prima cosa in entrambi i programmi bisogna specificare la directory corretta. L'unica cosa che conta è che i programmi
+si trovino nella stessa locazione contenente la cartella "data".
+
+Fatto ciò si esegue il programma "matrice unitaria di prova" in Mathematica. ATTENZIONE: bisogna scartare le matrici
+il cui elemento (2,2) ha angolo della fase NEGATIVO. La tomografia infatti è eseguita supponendo che l'angolo sia positivo
+(per maggiori dettagli vedere tesina). Se l'angolo è negativo bisogna semplicemente lanciare di nuovo il programma fino
+a quando l'angolo non è positivo.
+ 
+Si apre il programma "tomografia 4x4" e si cambiano le seguenti linee di codice:
+
+R = Import["data/rate.dat", "Table"] -> R = Import["data/rate_test.dat", "Table"]
+
+V = Import["data/V.dat", "Table"] -> V = Import["data/V_test.dat", "Table"]
+
+Inoltre si commenta
+
+vis[[1, 2]][[2, 3]] = 0.525
+vis[[1, 2]][[2, 4]] = 0.882
+vis[[2, 1]][[3, 2]] = 0.622
+vis[[2, 1]][[4, 2]] = 0.916
+vis[[2, 2]][[3, 3]] = -0.547
+vis[[2, 2]][[3, 4]] = 0.898
+vis[[2, 2]][[4, 3]] = 0.911
+vis[[2, 2]][[4, 4]] = -0.931
+
+mentre si decommenta
+
+vis[[1, 2]] = Import["data/vis12_test.dat", "Table"]
+   vis[[2, 1]] = Import["data/vis21_test.dat", "Table"]
+    vis[[2, 2]] = Import["data/vis22_test.dat", "Table"]
+
+Fatto ciò non rimane che da eseguire il programma. Se non si apportano queste modifiche il programma si limiterà a 
+eseguire la tomografia del chip dell'esperienza.
